@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azha Pasa - Bhutan's Smart Delivery Network</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #4f46e5 0%, #10b981 100%);
+        }
+        .map-container {
+            height: 400px;
+            background-image: url('https://maps.googleapis.com/maps/api/staticmap?center=Bhutan&zoom=7&size=800x400&key=YOUR_API_KEY');
+            background-size: cover;
+            background-position: center;
+            border-radius: 1rem;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .driver-card:hover {
+            transform: scale(1.03);
+        }
+        .notification-bell {
+            animation: ring 2s ease infinite;
+        }
+        @keyframes ring {
+            0% { transform: rotate(0deg); }
+            5% { transform: rotate(15deg); }
+            10% { transform: rotate(-15deg); }
+            15% { transform: rotate(15deg); }
+            20% { transform: rotate(-15deg); }
+            25% { transform: rotate(0deg); }
+            100% { transform: rotate(0deg); }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-truck text-indigo-600 text-2xl mr-2"></i>
+                        <span class="text-xl font-bold text-indigo-600">Azha Pasa</span>
+                    </div>
+                </div>
+                <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
+                    <a href="#" class="text-indigo-600 px-3 py-2 text-sm font-medium">Home</a>
+                    <a href="#" class="text-gray-500 hover:text-indigo-600 px-3 py-2 text-sm font-medium">How It Works</a>
+                    <a href="#" class="text-gray-500 hover:text-indigo-600 px-3 py-2 text-sm font-medium">For Businesses</a>
+                    <a href="#" class="text-gray-500 hover:text-indigo-600 px-3 py-2 text-sm font-medium">For Drivers</a>
+                    <a href="#" class="text-gray-500 hover:text-indigo-600 px-3 py-2 text-sm font-medium">Contact</a>
+                </div>
+                <div class="flex items-center">
+                    <button class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700">
+                        Track Package
+                    </button>
+                    <div class="ml-4 relative">
+                        <button class="notification-bell text-gray-500 hover:text-indigo-600">
+                            <i class="fas fa-bell text-xl"></i>
+                            <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-gradient text-white">
+        <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+                    Bhutan's Smart Delivery Network
+                </h1>
+                <p class="mt-6 max-w-lg mx-auto text-xl">
+                    Faster, transparent, and economical deliveries across all dzongkhags using local taxi drivers and community pickup points.
+                </p>
+                <div class="mt-10 flex justify-center space-x-4">
+                    <a href="#" class="bg-white text-indigo-600 px-6 py-3 rounded-md text-base font-medium hover:bg-gray-100">
+                        Send a Package
+                    </a>
+                    <a href="#" class="bg-indigo-500 text-white px-6 py-3 rounded-md text-base font-medium hover:bg-indigo-600">
+                        Become a Driver Partner
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Real-time Tracking Demo -->
+    <div class="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                    Real-Time Package Tracking
+                </h2>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    See exactly where your package is at every step of the journey
+                </p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-2/3 mb-6 md:mb-0 md:pr-6">
+                        <div class="map-container"></div>
+                    </div>
+                    <div class="md:w-1/3">
+                        <div class="bg-gray-50 p-4 rounded-lg h-full">
+                            <h3 class="font-bold text-lg mb-4">Package #AP-789456</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <p class="text-sm text-gray-500">Sender</p>
+                                    <p>Thimphu Handicrafts</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Receiver</p>
+                                    <p>Sonam Yangden, Trashigang</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Current Status</p>
+                                    <div class="flex items-center mt-1">
+                                        <div class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center text-white mr-3">
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium">In Transit</p>
+                                            <p class="text-sm text-gray-500">Estimated delivery: Today by 5 PM</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pt-4 border-t border-gray-200">
+                                    <p class="text-sm text-gray-500">Driver</p>
+                                    <div class="flex items-center mt-2">
+                                        <div class="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 mr-3">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium">Karma Dorji</p>
+                                            <p class="text-sm text-gray-500">Taxi #BT-1 A2345</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="w-full mt-4 bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700">
+                                    <i class="fas fa-phone-alt mr-2"></i> Call Driver
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                    How Azha Pasa Works
+                </h2>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    Simple steps for fast, reliable deliveries across Bhutan
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="feature-card bg-white p-6 rounded-xl shadow-md transition duration-300 ease-in-out">
+                    <div class="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 mb-4">
+                        <i class="fas fa-box-open text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">1. Package Drop-off</h3>
+                    <p class="text-gray-500">
+                        Drop your package at any designated community pickup point or schedule a pickup with a local taxi driver.
+                    </p>
+                </div>
+                
+                <div class="feature-card bg-white p-6 rounded-xl shadow-md transition duration-300 ease-in-out">
+                    <div class="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 mb-4">
+                        <i class="fas fa-truck text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">2. Smart Routing</h3>
+                    <p class="text-gray-500">
+                        Our system matches your package with the optimal taxi route based on real-time GPS data and delivery needs.
+                    </p>
+                </div>
+                
+                <div class="feature-card bg-white p-6 rounded-xl shadow-md transition duration-300 ease-in-out">
+                    <div class="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 mb-4">
+                        <i class="fas fa-mobile-alt text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">3. Real-Time Updates</h3>
+                    <p class="text-gray-500">
+                        Receive automatic SMS notifications at every stage of delivery, with live tracking available on our website.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Benefits Section -->
+    <div class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                    Benefits for Everyone
+                </h2>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    Creating value across Bhutan's communities
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <div class="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 mb-4">
+                        <i class="fas fa-bolt text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Faster Deliveries</h3>
+                    <p class="text-gray-500">
+                        Leverage existing taxi routes to reduce delivery times by up to 60% compared to traditional methods.
+                    </p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <div class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mb-4">
+                        <i class="fas fa-wallet text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Lower Costs</h3>
+                    <p class="text-gray-500">
+                        Save up to 40% on shipping costs by utilizing spare capacity in local taxis rather than dedicated delivery vehicles.
+                    </p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <div class="h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mb-4">
+                        <i class="fas fa-smile text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Happier Communities</h3>
+                    <p class="text-gray-500">
+                        Strengthen local economies by supporting taxi drivers and small businesses while providing better service to customers.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Driver Partners Section -->
+    <div class="py-16 px-4 sm:px-6 lg:px-8 bg-indigo-700 text-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-extrabold sm:text-4xl">
+                    Join Our Network of Driver Partners
+                </h2>
+                <p class="mt-4 max-w-2xl text-xl text-indigo-100 mx-auto">
+                    Earn extra income by delivering packages on your existing routes
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 h-6 w-6 text-green-400 mt-1 mr-3">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <p class="text-indigo-100">Earn additional income without changing your existing taxi routes</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 h-6 w-6 text-green-400 mt-1 mr-3">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <p class="text-indigo-100">Simple pickup and drop-off process at community points</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 h-6 w-6 text-green-400 mt-1 mr-3">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <p class="text-indigo-100">Real-time navigation assistance and customer communication tools</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 h-6 w-6 text-green-400 mt-1 mr-3">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <p class="text-indigo-100">Weekly payments directly to your bank account</p>
+                        </li>
+                    </ul>
+                    <div class="mt-8">
+                        <button class="bg-white text-indigo-700 px-6 py-3 rounded-md text-base font-medium hover:bg-gray-100">
+                            Sign Up as a Driver Partner
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="driver-card bg-indigo-600 p-4 rounded-lg transition duration-300 ease-in-out">
+                        <div class="h-16 w-16 rounded-full bg-indigo-500 flex items-center justify-center text-white mx-auto mb-3">
+                            <i class="fas fa-user-tie text-2xl"></i>
+                        </div>
+                        <p class="text-center font-medium">Karma Wangchuk</p>
+                        <p class="text-center text-indigo-200 text-sm">Thimphu Taxi Driver</p>
+                        <p class="text-center text-white mt-2 text-xs">"Earn extra 8,000 Nu. monthly with minimal effort!"</p>
+                    </div>
+                    <div class="driver-card bg-indigo-600 p-4 rounded-lg transition duration-300 ease-in-out">
+                        <div class="h-16 w-16 rounded-full bg-indigo-500 flex items-center justify-center text-white mx-auto mb-3">
+                            <i class="fas fa-user text-2xl"></i>
+                        </div>
+                        <p class="text-center font-medium">Dorji Penjore</p>
+                        <p class="text-center text-indigo-200 text-sm">Paro Taxi Driver</p>
+                        <p class="text-center text-white mt-2 text-xs">"Helps cover my fuel costs on return trips."</p>
+                    </div>
+                    <div class="driver-card bg-indigo-600 p-4 rounded-lg transition duration-300 ease-in-out">
+                        <div class="h-16 w-16 rounded-full bg-indigo-500 flex items-center justify-center text-white mx-auto mb-3">
+                            <i class="fas fa-user-graduate text-2xl"></i>
+                        </div>
+                        <p class="text-center font-medium">Tashi Dema</p>
+                        <p class="text-center text-indigo-200 text-sm">Punakha Taxi Driver</p>
+                        <p class="text-center text-white mt-2 text-xs">"Flexible way to earn while driving my regular route."</p>
+                    </div>
+                    <div class="driver-card bg-indigo-600 p-4 rounded-lg transition duration-300 ease-in-out">
+                        <div class="h-16 w-16 rounded-full bg-indigo-500 flex items-center justify-center text-white mx-auto mb-3">
+                            <i class="fas fa-user-nurse text-2xl"></i>
+                        </div>
+                        <p class="text-center font-medium">Pema Choden</p>
+                        <p class="text-center text-indigo-200 text-sm">Bumthang Taxi Driver</p>
+                        <p class="text-center text-white mt-2 text-xs">"Great supplemental income during tourist off-season."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Business Partners Section -->
+    <div class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                    Business Solutions
+                </h2>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    Reliable, cost-effective delivery for Bhutanese businesses
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div class="bg-gray-100 p-6 rounded-xl">
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">Features for Businesses</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-5 w-5 text-green-500 mt-1 mr-3">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <p class="text-gray-700">Bulk shipping discounts for frequent senders</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-5 w-5 text-green-500 mt-1 mr-3">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <p class="text-gray-700">API integration for e-commerce platforms</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-5 w-5 text-green-500 mt-1 mr-3">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <p class="text-gray-700">Dedicated account manager for larger businesses</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 h-5 w-5 text-green-500 mt-1 mr-3">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <p class="text-gray-700">Customized reporting and analytics</p>
+                            </li>
+                        </ul>
+                        <div class="mt-6">
+                            <button class="bg-indigo-600 text-white px-6 py-3 rounded-md text-base font-medium hover:bg-indigo-700">
+                                Learn More for Businesses
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="bg-white border border-gray-200 rounded-xl shadow-md overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-center">
+                                <div class="h-12 w-12 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 mr-4">
+                                    <i class="fas fa-store text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Thimphu Handicrafts</h4>
+                                    <p class="text-sm text-gray-500">Local Artisan Collective</p>
+                                </div>
+                            </div>
+                            <blockquote class="mt-4 text-gray-600">
+                                <p>"Azha Pasa helped us reduce our delivery costs by 35% while improving customer satisfaction with real-time tracking. Our customers in rural areas now receive packages 2 days faster on average."</p>
+                            </blockquote>
+                            <div class="mt-4 flex items-center">
+                                <div class="flex -space-x-2 overflow-hidden">
+                                    <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white" src="https://randomuser.me/api/portraits/women/12.jpg" alt="">
+                                    <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white" src="https://randomuser.me/api/portraits/men/32.jpg" alt="">
+                                    <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white" src="https://randomuser.me/api/portraits/women/45.jpg" alt="">
+                                </div>
+                                <div class="ml-4">
+                                    <p class="text-sm font-medium text-gray-700">+12 other businesses</p>
+                                    <div class="flex">
+                                        <i class="fas fa-star text-yellow-400"></i>
+                                        <i class="fas fa-star text-yellow-400"></i>
+                                        <i class="fas fa-star text-yellow-400"></i>
+                                        <i class="fas fa-star text-yellow-400"></i>
+                                        <i class="fas fa-star text-yellow-400"></i>
+                                        <span class="text-xs text-gray-500 ml-1">(48 reviews)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Community Pickup Points -->
+    <div class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                    Community Pickup Points
+                </h2>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    Convenient locations across all dzongkhags for package drop-off and pickup
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <div class="h-40 bg-indigo-100 rounded-lg mb-4 flex items-center justify-center">
+                        <i class="fas fa-store text-4xl text-indigo-600"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Local Shops</h3>
+                    <p class="text-gray-500">
+                        Partnered convenience stores, pharmacies, and other local businesses serving as pickup points.
+                    </p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <div class="h-40 bg-green-100 rounded-lg mb-4 flex items-center justify-center">
+                        <i class="fas fa-school text-4xl text-green-600"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Community Centers</h3>
+                    <p class="text-gray-500">
+                        Schools, religious institutions, and government offices acting as central hubs for rural areas.
+                    </p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <div class="h-40 bg-purple-100 rounded-lg mb-4 flex items-center justify-center">
+                        <i class="fas fa-mobile-alt text-4xl text-purple-600"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Mobile Pickup</h3>
+                    <p class="text-gray-500">
+                        Scheduled pickups from taxi drivers in areas without fixed pickup points.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <button class="bg-indigo-600 text-white px-6 py-3 rounded-md text-base font-medium hover:bg-indigo-700">
+                    Find Nearest Pickup Point
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="bg-indigo-700">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
+            <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                <span class="block">Ready to experience better deliveries?</span>
+                <span class="block text-indigo-200">Sign up today and get your first shipment at 50% off.</span>
+            </h2>
+            <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
+                <div class="inline-flex rounded-md shadow">
+                    <a href="#" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50">
+                        Get Started
+                    </a>
+                </div>
+                <div class="ml-3 inline-flex rounded-md shadow">
+                    <a href="#" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                        Contact Sales
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase mb-4">Services</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Package Delivery</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Business Solutions</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Same-Day Delivery</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Scheduled Pickups</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Press</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Track Package</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase mb-4">Connect</h3>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                    <p class="text-gray-400 text-sm">
+                        Download our mobile app:
+                    </p>
+                    <div class="mt-2 flex space-x-2">
+                        <a href="#" class="flex items-center justify-center bg-black text-white px-3 py-2 rounded text-sm">
+                            <i class="fab fa-apple mr-2"></i> App Store
+                        </a>
+                        <a href="#" class="flex items-center justify-center bg-black text-white px-3 py-2 rounded text-sm">
+                            <i class="fab fa-google-play mr-2"></i> Play Store
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between">
+                <p class="text-gray-400 text-sm">
+                    &copy; 2023 Azha Pasa. All rights reserved.
+                </p>
+                <div class="mt-4 md:mt-0 flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white text-sm">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple animation for tracking demo
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulate package movement on the map
+            const statusElement = document.querySelector('.map-container');
+            let counter = 0;
+            
+            setInterval(() => {
+                counter++;
+                const images = [
+                    'https://maps.googleapis.com/maps/api/staticmap?center=Thimphu,Bhutan&zoom=12&size=800x400&key=YOUR_API_KEY&markers=color:red%7CThimphu',
+                    'https://maps.googleapis.com/maps/api/staticmap?center=Wangdue+Phodrang,Bhutan&zoom=10&size=800x400&key=YOUR_API_KEY&markers=color:red%7CWangdue+Phodrang',
+                    'https://maps.googleapis.com/maps/api/staticmap?center=Trongsa,Bhutan&zoom=10&size=800x400&key=YOUR_API_KEY&markers=color:red%7CTrongsa',
+                    'https://maps.googleapis.com/maps/api/staticmap?center=Trashigang,Bhutan&zoom=12&size=800x400&key=YOUR_API_KEY&markers=color:red%7CTrashigang'
+                ];
+                
+                statusElement.style.backgroundImage = `url('${images[counter % images.length]}')`;
+            }, 3000);
+            
+            // Notification bell interaction
+            const bell = document.querySelector('.notification-bell');
+            bell.addEventListener('click', function() {
+                alert('You have 3 new notifications:\n1. Package AP-789456 is out for delivery\n2. Your driver Karma Dorji is 15 minutes away\n3. New pickup point added in Punakha');
+            });
+        });
+    </script>
+</body>
+</html>
